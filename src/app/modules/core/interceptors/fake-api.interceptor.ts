@@ -3,6 +3,9 @@ import { HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { User } from '../../auth/models/user.model';
+import { PublicationMetadata, PublicationsList } from '../../home/models/publication.model';
+import PublicationListValues from '../../../../assets/data/publications/Publication.values.json';
+import PublicationMetadataValues from '../../../../assets/data/publications/Publication.metadata.json';
 
 @Injectable()
 export class FakeApiInterceptor implements HttpInterceptor {
@@ -14,6 +17,12 @@ export class FakeApiInterceptor implements HttpInterceptor {
         switch (true) {
           case url.endsWith('/login') && method === 'POST':
             return login();
+
+          case url.endsWith('/publications') && method === 'GET':
+            return getPublications();
+
+          case url.endsWith('/publications/metadata') && method === 'GET':
+            return getPublicationsMetadata();
 
           default:
             return next.handle(req);
@@ -32,6 +41,14 @@ export class FakeApiInterceptor implements HttpInterceptor {
       }
 
       return error('Error in E-mail or password');
+    }
+
+    function getPublications(): Observable<HttpResponse<PublicationsList>> {
+      return success(PublicationListValues);
+    }
+
+    function getPublicationsMetadata(): Observable<HttpResponse<Array<PublicationMetadata>>> {
+      return success(PublicationMetadataValues);
     }
 
     function success<T>(responseBody: T): Observable<HttpResponse<T>> {

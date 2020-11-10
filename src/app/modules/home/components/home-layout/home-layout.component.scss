@@ -1,0 +1,18 @@
+.home-layout-wrapper {
+  height: 100vh;
+  background-color: #E4E4E4;
+
+  .navbar {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightsteelblue;
+    box-shadow: 0 1px 3px -1px black;
+
+    &-link {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}

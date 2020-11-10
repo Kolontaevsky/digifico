@@ -1,0 +1,47 @@
+<div class="login">
+  <p-card header="Log In">
+    <form autocomplete="off" [formGroup]="loginForm">
+      <div class="p-fluid">
+        <div class="login-control">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            id="email"
+            pInputText
+            [autocomplete]="false"
+            formControlName="email"
+            [class.p-invalid]="isInvalid('email')"
+          >
+          <small class="p-invalid" *ngIf="hasIsRequiredError('email')">E-mail is required</small>
+          <small class="p-invalid" *ngIf="hasEmailInvalidError('email')">E-mail is not correct</small>
+        </div>
+        <div class="login-control">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            pInputText
+            formControlName="password"
+            [class.p-invalid]="isInvalid('password')"
+          >
+          <small class="p-invalid" *ngIf="hasIsRequiredError('password')">Password is required</small>
+        </div>
+      </div>
+    </form>
+    <div class="login-button">
+      <p-button
+        label="Log in"
+        (click)="login()"
+        [disabled]="loginForm.invalid"
+      ></p-button>
+    </div>
+  </p-card>
+  <p-dialog
+    header="Error while logging in"
+    [(visible)]="isDialogVisible"
+    [modal]="true"
+    [style]="{ width: '30vw' }"
+  >
+    {{ errorMessage }}
+  </p-dialog>
+</div>

@@ -21,4 +21,9 @@ export class AuthService {
       })
     );
   }
+
+  logout(): void {
+    this.userStorageService.removeUserData();
+    this.router.navigate(['auth']);
+  }
 }

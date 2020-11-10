@@ -1,0 +1,33 @@
+<div class="publications-list">
+  <p-table
+    [value]="publications"
+    [columns]="publicationsMetadata"
+    selectionMode="single"
+    (onRowSelect)="editPublication($event.data)"
+    [reorderableColumns]="true"
+  >
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let column of columns" pReorderableColumn>
+          {{ column.name }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-rowData
+      let-columns="columns"
+      let-publication
+    >
+      <tr [pSelectableRow]="publication">
+        <td *ngFor="let column of columns">
+          {{
+              column.type === 'datatime' ?
+                (rowData | publicationValueExtraction : column.fieldId | date) :
+                (rowData | publicationValueExtraction : column.fieldId)
+          }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

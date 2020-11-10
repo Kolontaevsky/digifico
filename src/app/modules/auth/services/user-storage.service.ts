@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -15,6 +15,19 @@ export class UserStorageService {
   public saveNewUserData(user: User): void {
     this.saveUserToLocalStorage(user);
     this.currentUser$.next(user);
+  }
+
+  public get user$(): Observable<User | null> {
+    return this.currentUser$.asObservable();
+  }
+
+  public get user(): User | null {
+    return this.currentUser$.value;
+  }
+
+  public removeUserData(): void {
+    localStorage.removeItem('userData');
+    this.currentUser$.next(null);
   }
 
   private get userFromLocalStorage(): User | null {

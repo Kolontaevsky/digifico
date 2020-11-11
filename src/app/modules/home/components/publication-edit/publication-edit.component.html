@@ -1,0 +1,61 @@
+<div class="publication-edit">
+  <p-card header="Publication edit" *ngIf="!publicationWasNotLoaded; else errorCard">
+    <form [formGroup]="editPublicationForm">
+      <div class="p-fluid">
+        <ng-container *ngFor="let control of publicationEditMetadata">
+          <ng-container [ngSwitch]="control.type">
+            <div class="control" *ngSwitchCase="'string'">
+              <input
+                type="text"
+                pInputText
+                [formControlName]="control.fieldCode"
+                [placeholder]="control.placeholderTxt"
+              >
+              <small class="p-invalid" *ngIf="isRequired(control.fieldCode)">
+                This field is required
+              </small>
+            </div>
+            <div class="control" *ngSwitchCase="'text'">
+              <textarea
+                [rows]="3"
+                pInputTextarea
+                autoResize="autoResize"
+                [formControlName]="control.fieldCode"
+                [placeholder]="control.placeholderTxt"
+              ></textarea>
+              <small class="p-invalid" *ngIf="isRequired(control.fieldCode)">
+                This field is required
+              </small>
+            </div>
+            <div class="control" *ngSwitchCase="'datatime'">
+              <p-calendar
+                [formControlName]="control.fieldCode"
+                [showTime]="true"
+                [showSeconds]="true"
+                [placeholder]="control.placeholderTxt"
+              ></p-calendar>
+              <small class="p-invalid" *ngIf="isRequired(control.fieldCode)">
+                This field is required
+              </small>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </form>
+    <div class="control">
+      <p-button
+        label="Save"
+        (click)="savePublication()"
+        [disabled]="editPublicationForm.invalid"
+      ></p-button>
+    </div>
+  </p-card>
+  <p-card header="Result" *ngIf="publicationForSave">
+    <pre>{{ publicationForSave | json }}</pre>
+  </p-card>
+  <ng-template #errorCard>
+    <p-card header="Error">
+      No publication loaded :(
+    </p-card>
+  </ng-template>
+</div>

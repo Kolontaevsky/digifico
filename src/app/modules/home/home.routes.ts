@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { PublicationsListComponent } from './components/publications-list/publications-list.component';
+import { PublicationEditComponent } from './components/publication-edit/publication-edit.component';
 
 export const HomeRoutes: Routes = [
   {
@@ -12,7 +13,13 @@ export const HomeRoutes: Routes = [
     children: [
       {
         path: 'publications-list',
-        component: PublicationsListComponent
+        component: PublicationsListComponent,
+        children: [
+          {
+            path: 'edit/:id',
+            component: PublicationEditComponent
+          }
+        ]
       }
     ]
   }

@@ -23,11 +23,19 @@
         <td *ngFor="let column of columns">
           {{
               column.type === 'datatime' ?
-                (rowData | publicationValueExtraction : column.fieldId | date) :
+                (rowData | publicationValueExtraction : column.fieldId | date : 'MM/dd/yyyy HH:mm:ss') :
                 (rowData | publicationValueExtraction : column.fieldId)
           }}
         </td>
       </tr>
     </ng-template>
   </p-table>
+  <p-sidebar
+    [(visible)]="isSidebarOpened"
+    position="right"
+    styleClass="p-sidebar-md"
+    (onHide)="sidebarClosed()"
+  >
+    <router-outlet></router-outlet>
+  </p-sidebar>
 </div>

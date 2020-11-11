@@ -3,9 +3,11 @@ import { HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { User } from '../../auth/models/user.model';
-import { PublicationMetadata, PublicationsList } from '../../home/models/publication.model';
+import { Publication, PublicationMetadata, PublicationsList } from '../../home/models/publication.model';
 import PublicationListValues from '../../../../assets/data/publications/Publication.values.json';
 import PublicationMetadataValues from '../../../../assets/data/publications/Publication.metadata.json';
+import PublicationEditValues from '../../../../assets/data/edit/PublicationEdit.values.json';
+import PublicationEditMetadataValues from '../../../../assets/data/edit/PublicationEdit.metadata.json';
 
 @Injectable()
 export class FakeApiInterceptor implements HttpInterceptor {
@@ -23,6 +25,12 @@ export class FakeApiInterceptor implements HttpInterceptor {
 
           case url.endsWith('/publications/metadata') && method === 'GET':
             return getPublicationsMetadata();
+
+          case url.endsWith('/publications/edit') && method === 'GET':
+            return getEditingPublication();
+
+          case url.endsWith('/publications/edit/metadata') && method === 'GET':
+            return getPublicationEditMetadata();
 
           default:
             return next.handle(req);
@@ -49,6 +57,14 @@ export class FakeApiInterceptor implements HttpInterceptor {
 
     function getPublicationsMetadata(): Observable<HttpResponse<Array<PublicationMetadata>>> {
       return success(PublicationMetadataValues);
+    }
+
+    function getEditingPublication(): Observable<HttpResponse<Publication>> {
+      return success(PublicationEditValues);
+    }
+
+    function getPublicationEditMetadata(): Observable<HttpResponse<Array<PublicationMetadata>>> {
+      return success(PublicationEditMetadataValues);
     }
 
     function success<T>(responseBody: T): Observable<HttpResponse<T>> {
